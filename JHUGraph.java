@@ -8,7 +8,9 @@ import java.util.ArrayList;
  * connect vertices method. Otherwise, it can
  * function as a normal hash map.
  *
- * @author Jeffrey Sham, Tyler Lee, Alwin Hui
+ * @author Jeffrey Sham JHED: jsham2
+ * @author Tyler Lee JHED: tlee93
+ * @author Alwin Hui JHED: ahui5
  *
  * @param <K>
  * @param <V>
@@ -679,76 +681,5 @@ public class JHUGraph<K, V> {
         }
 
     }
-
-    /**
-     * a.
-     * @param args a
-     */
-    public static void main(String[] args) {
-
-        JHUGraph<String, Integer> graph = new JHUGraph<String, Integer>(true);
-
-        graph.addNewNode("A", 0);
-        graph.addNewNode("B", 0);
-        graph.addNewNode("C", 0);
-        graph.addNewNode("D", 0);
-        graph.addNewNode("E", 0);
-        graph.addNewNode("F", 0);
-        graph.addNewNode("G", 0);
-        graph.addNewNode("H", 0);
-        graph.addNewNode("I", 0);
-        graph.addNewNode("J", 0);
-        graph.addNewNode("K", 0);
-        graph.addNewNode("L", 0);
-        graph.addNewNode("M", 0);
-
-        graph.connectVertices("A", "B");
-
-        graph.connectVertices("B", "C");
-        graph.connectVertices("B", "G");
-
-        graph.connectVertices("G", "D");
-
-        graph.connectVertices("E", "I");
-
-        graph.connectVertices("C", "E");
-        graph.connectVertices("C", "H");
-        graph.connectVertices("C", "L");
-
-        graph.connectVertices("F", "M");
-        graph.connectVertices("F", "J");
-        graph.connectVertices("F", "E");
-
-        graph.connectVertices("D", "C");
-        graph.connectVertices("D", "F");
-
-        graph.connectVertices("H", "F");
-
-        graph.connectVertices("K", "H");
-
-        graph.connectVertices("I", "M");
-        graph.connectVertices("I", "J");
-
-        graph.connectVertices("L", "K");
-        graph.connectVertices("L", "M");
-
-        graph.connectVertices("M", "J");
-
-        System.out.println("A :" + graph.getAdjacents("A"));
-        System.out.println("B :" + graph.getAdjacents("B"));
-        System.out.println("C :" + graph.getAdjacents("C"));
-        System.out.println("D :" + graph.getAdjacents("D"));
-        System.out.println("E :" + graph.getAdjacents("E"));
-        System.out.println("F :" + graph.getAdjacents("F"));
-        System.out.println("G :" + graph.getAdjacents("G"));
-        System.out.println("H :" + graph.getAdjacents("H"));
-        System.out.println("I :" + graph.getAdjacents("I"));
-        System.out.println("J :" + graph.getAdjacents("J"));
-        System.out.println("K :" + graph.getAdjacents("K"));
-        System.out.println("L :" + graph.getAdjacents("L"));
-        System.out.println("M :" + graph.getAdjacents("M"));
-
-    }
-
 
 }
