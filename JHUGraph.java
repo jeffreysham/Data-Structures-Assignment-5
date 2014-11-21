@@ -12,7 +12,7 @@ public class JHUGraph<K, V> {
 
     /** The default load factor of the hash map.
      */
-    private static final double DEFAULT_LOAD_FACTOR = .5;
+    private static final double DEFAULT_LOAD_FACTOR = .75;
 
     /** The size of the hash map.
      */
@@ -129,6 +129,28 @@ public class JHUGraph<K, V> {
         return false;
     }
 
+    private JHUGraphNode removeEdge(Object keyA, Object keyB) {
+
+        int index = this.findIndex(keyA);
+
+        if (index != -1 && !keyA.equals(keyB)) {
+            JHUGraphNode current = this.adjacencyList[index];
+            JHUGraphNode previous = current;
+
+            while (!current.key.equals(keyB) && current != null) {
+                previous = current;
+                current = current.adjacent;
+            }
+
+            previous.adjacent = current.adjacent;
+
+            return current;
+
+        }
+
+        return null;
+    }
+
     public boolean connectVertices(Object keyA, Object keyB) {
 
         if (keyA.equals(keyB)) {
@@ -179,6 +201,11 @@ public class JHUGraph<K, V> {
         return false;
     }
 
+    public boolean isAdjacent(K keyA, K keyB) {
+        List<K> list = this.getAdjacents(keyA);
+        return list.contains(keyB);
+    }
+
     public List<K> getAdjacents(K key) {
         List<K> list = new ArrayList<K>();
         int index = this.findIndex(key);
@@ -197,6 +224,82 @@ public class JHUGraph<K, V> {
             return list;
         }
 
+    }
+
+    private List<K> findNodesWithNoIncomingEdges() {
+
+        List<K> list = new ArrayList<K>();
+        for (int i = 0; i < this.adjacencyList.length; i++) {
+            JHUGraphNode tempNode = this.adjacencyList[i];
+
+            if (tempNode == null) {
+                continue;
+            } else {
+                list.add((K) tempNode.key);
+            }
+        }
+
+        for (int i = 0; i < this.adjacencyList.length; i++) {
+            JHUGraphNode tempNode = this.adjacencyList[i];
+
+            if (tempNode == null) {
+                continue;
+            } else {
+                while (tempNode.adjacent != null) {
+                    list.remove(tempNode.adjacent.key);
+                    tempNode = tempNode.adjacent;
+                }
+            }
+        }
+
+        return list;
+    }
+
+
+    //Wikipedia for algorithm
+    public List<K> topologicalSort() {
+        List<K> list = this.findNodesWithNoIncomingEdges();
+        List<K> sortedList = new ArrayList<K>();
+
+        int size = list.size();
+        int count = 0;
+
+        while (!list.isEmpty()) {
+            //System.out.println(list.size());
+            K tempKey = list.remove(0);
+
+
+            if (size == count) {
+                size += list.size() + 1;
+                sortedList.add(null);
+            }
+
+            count++;
+
+            int index = this.findIndex(tempKey);
+
+            JHUGraphNode tempNode = null;
+
+            if (index != -1) {
+                tempNode = this.adjacencyList[index];
+
+
+                sortedList.add(tempKey);
+
+                while (tempNode.adjacent != null) {
+                    JHUGraphNode tempDeletedEdgeToNode = this.removeEdge(tempKey, tempNode.adjacent.key);
+
+                    if (this.findNodesWithNoIncomingEdges().contains(tempDeletedEdgeToNode.key)) {
+                        //System.out.println("Size in add: " + list.size());
+
+                        list.add((K) tempDeletedEdgeToNode.key);
+                    }
+                }
+            }
+
+        }
+
+        return sortedList;
     }
 
     public V find(Object key) {
