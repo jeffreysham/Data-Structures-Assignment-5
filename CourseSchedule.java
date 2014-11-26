@@ -54,6 +54,8 @@ public final class CourseSchedule {
                 System.out.println(sortedList.get(traverse));
             }
         }
+
+        System.out.println("Total number of semesters required: " + count);
     }
 
     /**
