@@ -176,38 +176,6 @@ public class JHUGraph<K, V> {
         return false;
     }
 
-//    public K removeEdgeFromGraph(Object keyA, Object keyB) {
-//        return (K) this.removeEdge(keyA, keyB).key;
-//    }
-
-    /**
-     * This method removes an edge from NodeA to NodeB.
-     * @param keyA NodeA's key
-     * @param keyB NodeB's key
-     * @return the node that was removed.
-     */
-    private JHUGraphNode removeEdge(Object keyA, Object keyB) {
-
-        int index = this.findIndex(keyA);
-
-        if (index != -1 && !keyA.equals(keyB)) {
-            JHUGraphNode current = this.adjacencyList[index];
-            JHUGraphNode previous = current;
-
-            while (!current.key.equals(keyB) && current != null) {
-                previous = current;
-                current = current.adjacent;
-            }
-
-            previous.adjacent = current.adjacent;
-
-            return current;
-
-        }
-
-        return null;
-    }
-
     /**
      * This method connects NodeA to NodeB.
      * If directed, NodeA will be adjacent to NodeB.
@@ -321,23 +289,8 @@ public class JHUGraph<K, V> {
         for (int i = 0; i < this.adjacencyList.length; i++) {
             JHUGraphNode tempNode = this.adjacencyList[i];
 
-            if (tempNode == null) {
-                continue;
-            } else {
+            if (tempNode != null && tempNode.indegree == 0) {
                 list.add((K) tempNode.key);
-            }
-        }
-
-        for (int i = 0; i < this.adjacencyList.length; i++) {
-            JHUGraphNode tempNode = this.adjacencyList[i];
-
-            if (tempNode == null) {
-                continue;
-            } else {
-                while (tempNode.adjacent != null) {
-                    list.remove(tempNode.adjacent.key);
-                    tempNode = tempNode.adjacent;
-                }
             }
         }
 
@@ -353,9 +306,7 @@ public class JHUGraph<K, V> {
         for (int i = 0; i < this.adjacencyList.length; i++) {
             JHUGraphNode tempNode = this.adjacencyList[i];
 
-            if (tempNode == null) {
-                continue;
-            } else {
+            if (tempNode != null) {
                 tempNode.indegree = 0;
             }
         }
@@ -363,9 +314,7 @@ public class JHUGraph<K, V> {
         for (int i = 0; i < this.adjacencyList.length; i++) {
             JHUGraphNode tempNode = this.adjacencyList[i];
 
-            if (tempNode == null) {
-                continue;
-            } else {
+            if (tempNode != null) {
                 List<K> adjacent = this.getAdjacents((K) tempNode.key);
                 for (int j = 0; j < adjacent.size(); j++) {
                     JHUGraphNode adjNode =
@@ -376,69 +325,6 @@ public class JHUGraph<K, V> {
             }
         }
 
-    }
-
-
-    //Wikipedia for algorithm
-    /**
-     * Modeled from Wikipedia.
-     *
-     * This method performs a topological sort of the
-     * nodes in the graph.
-     *
-     * @return list of the keys of the nodes in
-     * topological order with "null" values separating
-     * the different levels.
-     */
-    public List<K> topologicalSort() {
-        List<K> list = this.findNodesWithNoIncomingEdges();
-        List<K> sortedList = new ArrayList<K>();
-
-        int length = list.size();
-        int count = 0;
-
-        while (!list.isEmpty()) {
-
-            K tempKey = list.remove(0);
-
-
-            if (length == count) {
-                length += list.size() + 1;
-                sortedList.add(null);
-            }
-
-            count++;
-
-            int index = this.findIndex(tempKey);
-
-            JHUGraphNode tempNode = null;
-
-            if (index != -1) {
-                tempNode = this.adjacencyList[index];
-
-
-                sortedList.add(tempKey);
-
-                while (tempNode.adjacent != null) {
-                    JHUGraphNode tempDeletedEdgeToNode =
-                            this.removeEdge(tempKey, tempNode.adjacent.key);
-
-                    if (this.findNodesWithNoIncomingEdges()
-                            .contains(tempDeletedEdgeToNode.key)) {
-                        //System.out.println("Size in add: " + list.size());
-
-                        list.add((K) tempDeletedEdgeToNode.key);
-                    }
-                }
-            }
-
-        }
-
-        if (count != this.size) {
-            throw new CycleFoundException();
-        }
-
-        return sortedList;
     }
 
     /**
@@ -454,10 +340,10 @@ public class JHUGraph<K, V> {
      * topological order with "null" values separating
      * the different levels.
      */
-    public List<K> topologicalSort2() {
+    public List<K> topologicalSort() {
+        this.findInDegrees();
         List<K> list = this.findNodesWithNoIncomingEdges();
         List<K> sortedList = new ArrayList<K>();
-        this.findInDegrees();
 
         int length = list.size();
         int count = 0;
@@ -610,9 +496,7 @@ public class JHUGraph<K, V> {
         for (int i = 0; i < tempAdjList.length; i++) {
             JHUGraphNode tempNode = tempAdjList[i];
 
-            if (tempNode == null) {
-                continue;
-            } else {
+            if (tempNode != null) {
                 this.addOldNode(tempNode);
             }
         }
