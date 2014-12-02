@@ -6,6 +6,8 @@ Jeffrey Sham JHED: jsham2
 Tyler Lee JHED: tlee93
 Alwin Hui JHED: ahui5
 
+See README-Graph for more information about the graph structure.
+
 For the Celebrity class, we used a graph structure in order to solve the problem. We
 chose this structure because it enabled us to easily know if one person knew another
 person. So, we used a directed graph structure because while everyone knows the celebrity,
