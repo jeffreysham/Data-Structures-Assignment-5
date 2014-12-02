@@ -87,12 +87,9 @@ public final class Celebrity {
                 Matcher m =
                         Pattern.compile("\\d+\\s").matcher(stringToMatch + " ");
 
-                boolean matched = false;
                 MyJHUSet<Integer> set = new MyJHUSet<Integer>();
 
                 while (m.find()) {
-                    matched = true;
-
                     String tempString = m.group(0).trim();
                     set.add(Integer.parseInt(tempString));
                 }
@@ -104,21 +101,6 @@ public final class Celebrity {
                     graph.addNewNode(tempKey, -1);
                     graph.addNewNode(set.get(1), -1);
                     graph.connectVertices(tempKey, set.get(1));
-                } else {
-                    //handles the input where there are multiple
-                    //pairs of people on the same line
-                    for (int i = 0; i < set.size(); i++) {
-                        graph.addNewNode(set.get(i), -1);
-                        if (i % 2 == 1) {
-                            tempKey = set.get(i - 1);
-                            graph.connectVertices(tempKey, set.get(i));
-                        }
-
-                    }
-                }
-
-                if (!matched) {
-                    System.out.println("NOT matched!");
                 }
             }
         } catch (IOException io) {
