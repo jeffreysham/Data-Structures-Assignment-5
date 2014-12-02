@@ -156,6 +156,18 @@ public final class WordSort {
                     }
 
                     counter++;
+
+                    if (counter == prevLength && !(moveOnToNext)) {
+                        sortedGraph.addNewNode(prevToCompare, -1);
+                        sortedGraph.addNewNode(str, -1);
+
+                        sortedGraph.connectVertices(prevToCompare, str);
+                    } else if (counter == currLength && !(moveOnToNext)) {
+                        sortedGraph.addNewNode(prevToCompare, -1);
+                        sortedGraph.addNewNode(str, -1);
+
+                        sortedGraph.connectVertices(str, prevToCompare);
+                    }
                 }
 
                 prevToCompare = str;
@@ -331,7 +343,8 @@ public final class WordSort {
                 bw = new BufferedWriter(fw);
 
                 for (int i = 0; i < sortedList.size(); i = i + 2) {
-                    bw.write(sortedList.get(i) + "\n");
+                    bw.write(sortedList.get(i));
+                    bw.newLine();
                 }
 
                 bw.close();
