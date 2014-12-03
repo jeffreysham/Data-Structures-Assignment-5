@@ -14,7 +14,7 @@ person. So, we used a directed graph structure because while everyone knows the 
 the celebrity knows no one. In order to use the graph structure, we added a node every 
 time we encountered a new number/person when parsing the input from the file. Then, 
 we connected the first number of the pair of numbers to the second number of the pair.
-This succcessfully created a graph structure where the numbers that know other numbers
+This successfully created a graph structure where the numbers that know other numbers
 are adjacent to them. 
 
 In order to find who the celebrity was, we had a method called isAdjacent(K keyA, K keyB)
