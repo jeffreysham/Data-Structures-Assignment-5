@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * @author Tyler Lee JHED: tlee93
  * @author Alwin Hui JHED: ahui5
  *
- * @param <K>
- * @param <V>
+ * @param <K> the key of the vertex
+ * @param <V> the data of the vertex
  */
 public class JHUGraph<K, V> {
 

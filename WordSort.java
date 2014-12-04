@@ -157,23 +157,45 @@ public final class WordSort {
 
                     counter++;
 
-                    if (counter == prevLength && !(moveOnToNext)) {
-                        sortedGraph.addNewNode(prevToCompare, -1);
-                        sortedGraph.addNewNode(str, -1);
+                    handleDifferentWordLengths(counter, prevLength,
+                            currLength, str, moveOnToNext, prevToCompare);
 
-                        sortedGraph.connectVertices(prevToCompare, str);
-                    } else if (counter == currLength && !(moveOnToNext)) {
-                        sortedGraph.addNewNode(prevToCompare, -1);
-                        sortedGraph.addNewNode(str, -1);
-
-                        sortedGraph.connectVertices(str, prevToCompare);
-                    }
                 }
 
                 prevToCompare = str;
             }
         }
     }
+
+    /**
+     * This method handles the case when the
+     * unsorted file has words that have different
+     * lengths.
+     *
+     * @param counter the current index
+     * @param prevLength the previous word's length
+     * @param currLength the current word's length
+     * @param str the current word's key
+     * @param moveOnToNext boolean for if the word has been processed
+     * @param prevToCompare the previous word's key
+     */
+    public static void handleDifferentWordLengths(int counter,
+            int prevLength, int currLength,
+            String str, boolean moveOnToNext, String prevToCompare) {
+        if (counter == prevLength && !(moveOnToNext)) {
+            sortedGraph.addNewNode(prevToCompare, -1);
+            sortedGraph.addNewNode(str, -1);
+
+            sortedGraph.connectVertices(prevToCompare, str);
+        } else if (counter == currLength && !(moveOnToNext)) {
+            sortedGraph.addNewNode(prevToCompare, -1);
+            sortedGraph.addNewNode(str, -1);
+
+            sortedGraph.connectVertices(str, prevToCompare);
+        }
+    }
+
+
 
     /**
      * This method sorts the given input list based on the current dictionary.
